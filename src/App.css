@@ -62,16 +62,9 @@ h3 {
   min-height: 100vh;
 }
 
-.home {
-  position: relative;
-  padding: 0 10%;
-  font-size: 1.2em;
-  line-height: 2.1em;
-}
-
 .container {
   display: grid;
-  grid-template-columns: 150px auto;
+  grid-template-columns: 200px auto;
   grid-template-rows: 100vh;
 }
 
@@ -105,9 +98,9 @@ pre {
 
 code {
   height: 100%;
-  background-color: none;
 }
 
 .hljs {
   padding-bottom: 20px;
+  line-height: 1.5em;
 }

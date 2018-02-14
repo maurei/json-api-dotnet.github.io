@@ -1,7 +1,7 @@
 import React from "react";
 import ReactMarkdown from "react-markdown";
 
-import SplitPage from "./SplitPage";
+import SplitPage from "../SplitPage";
 import Example from "../../components/Example";
 import MarkdownContent from "../../components/MarkdownContent";
 

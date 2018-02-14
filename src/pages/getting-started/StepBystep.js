@@ -1,7 +1,7 @@
 import React from "react";
 import ReactMarkdown from "react-markdown";
 
-import SplitPage from "./SplitPage";
+import SplitPage from "../SplitPage";
 import Example from "../../components/Example";
 import MarkdownContent from "../../components/MarkdownContent";
 
@@ -48,10 +48,10 @@ Install-Package JsonApiDotnetCore
       />
       <Example
         md={`
-### Models
+### Define Models
         
-Define your domain models such that they implement IIdentifiable<TId>.
-The easiest way to do this is to inherit Identifiable`}
+Define your domain models such that they implement \`IIdentifiable<TId>\`.
+The easiest way to do this is to inherit \`Identifiable\``}
         code={`
 public class Person : Identifiable
 { 
@@ -62,7 +62,7 @@ public class Person : Identifiable
 
       <Example
         md={`
-### DbContext        
+### Define DbContext
         
 Nothing special here, just an ordinary DbContext`}
         code={`
@@ -78,10 +78,10 @@ public class AppDbContext : DbContext
 
       <Example
         md={`
-### Controllers
+### Define Controllers
         
-You need to create controllers that inherit from JsonApiController<TEntity> or JsonApiController<TEntity, TId>
-where TEntity is the model that inherits from Identifiable<TId>.`}
+You need to create controllers that inherit from \`JsonApiController<TEntity>\` or \`JsonApiController<TEntity, TId>\`
+where \`TEntity\` is the model that inherits from \`Identifiable<TId>\`.`}
         code={`
 public class PeopleController : JsonApiController<Person>
 {

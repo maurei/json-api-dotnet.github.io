@@ -4,7 +4,6 @@ export default props => {
   return (
     <div className="page-container">
       <div>{props.children}</div>
-      <div className="footer" />
     </div>
   );
 };

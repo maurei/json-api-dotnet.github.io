@@ -20,6 +20,8 @@ import Routing from "./pages/usage/Routing";
 import Sorting from "./pages/usage/Sorting";
 import SparseFieldsets from "./pages/usage/SparseFieldsets";
 
+import LayerOverview from "./pages/extensibility/LayerOverview";
+
 const { ul } = glamorous;
 
 const List = ul({
@@ -83,6 +85,12 @@ const App = () => {
                   <Link to="/sparse-fieldsets">Sparse Field Sets</Link>
                 </li>
               </List>
+              <h3>Getting Started</h3>
+              <List>
+                <li>
+                  <Link to="/layer-overview">Layer Overview</Link>
+                </li>
+              </List>
             </nav>
           </Sidebar>
           <div className="item main">
@@ -104,6 +112,7 @@ const App = () => {
             <Route exact path="/routing" component={Routing} />
             <Route exact path="/sorting" component={Sorting} />
             <Route exact path="/sparse-fieldsets" component={SparseFieldsets} />
+            <Route exact path="/layer-overview" component={LayerOverview} />
           </div>
         </div>
       </Router>

@@ -79,7 +79,7 @@ public class Person : Identifiable
 `}
       />
 
-      <ContentHeader>Immutabilitys</ContentHeader>
+      <ContentHeader>Immutability</ContentHeader>
       <Example
         md={`
 Attributes can be marked as immutable which will prevent \`PATCH\` requests from updating them.
@@ -125,6 +125,61 @@ public class TodoItem : Identifiable<int>
 
     [HasOne("owner")]
     public virtual Person Owner { get; set; }
+}
+`}
+      />
+      <ContentHeader>Complex Attributes</ContentHeader>
+      <Example
+        md={`
+Models may contain complex attributes.
+Serialization of these types is done by Newtonsoft.Json,
+so you should use their APIs to specify serialization formats.
+You can also use global options to specify the JsonSerializer that gets used.
+        `}
+        code={`
+public class Foo : Identifiable
+{
+    [Attr("bar")]
+    public Bar Bar { get; set; }
+}
+
+public class Bar
+{
+    [JsonProperty("compound-member")]
+    public string CompoundMember { get; set; }
+}
+`}
+      />
+      <Example
+        md={`
+If you need your complex attributes persisted as a 
+JSON string in your database, but you need access to it as a concrete type,
+you can define two members on your resource. 
+The first member is the concrete type that you will directly interact with in your 
+application. We can use the \`NotMapped\` attribute to prevent Entity Framework from
+mapping it to the database.
+The second is the raw JSON property that will be persisted to the database.
+How you use these members should determine which one is responsible for serialization.
+In this example, we only serialize and deserialize at the time of persistence
+and retrieval.
+        `}
+        code={`
+public class Foo : Identifiable
+{
+    [Attr("bar"), NotMapped]
+    public Bar Bar { get; set; }
+
+    private const string EMPTY_JSON = "{}";
+    public string BarJson 
+    { 
+        get => (Bar == null) 
+                ? EMPTY_JSON
+                : JsonConvert.SerializeObject(Bar);
+        
+        set => Bar = string.IsNullOrWhiteSpace(value)
+                ? null
+                : JsonConvert.DeserializeObject(value);
+    };
 }
 `}
       />

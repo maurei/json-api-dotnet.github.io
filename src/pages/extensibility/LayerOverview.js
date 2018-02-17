@@ -3,6 +3,7 @@ import SplitPage from "../SplitPage";
 import Example from "../../components/Example";
 import ContentHeader from "../../components/ContentHeader";
 import HtmlContent from "../../components/HtmlContent";
+import GithubLink from "../../components/GithubLink";
 
 export default () => {
   return (
@@ -12,32 +13,47 @@ export default () => {
       By default, data retrieval is distributed across 3 layers:
 
 <p>
-<a href="https://github.com/json-api-dotnet/JsonApiDotNetCore/blob/master/src/JsonApiDotNetCore/Controllers/JsonApiController.cs">JsonApiController</a> (required)
+<GithubLink path="Controllers/JsonApiController.cs">JsonApiController</GithubLink> (required)
 <br />
-└── <a href="https://github.com/json-api-dotnet/JsonApiDotNetCore/blob/master/src/JsonApiDotNetCore/Services/EntityResourceService.cs">EntityResourceService</a> : <a href="https://github.com/json-api-dotnet/JsonApiDotNetCore/blob/master/src/JsonApiDotNetCore/Services/Contract/IResourceService.cs">IResourceService</a>
+└── <GithubLink path="Services/EntityResourceService.cs">EntityResourceService</GithubLink> 
+  : <GithubLink path="Services/Contract/IResourceService.cs">IResourceService</GithubLink>
 <br />
-&nbsp;&nbsp;&nbsp;&nbsp;└── <a href="https://github.com/json-api-dotnet/JsonApiDotNetCore/blob/master/src/JsonApiDotNetCore/Data/DefaultEntityRepository.cs">DefaultEntityRepository</a> : <a href="https://github.com/json-api-dotnet/JsonApiDotNetCore/blob/master/src/JsonApiDotNetCore/Data/IEntityRepository.cs">IEntityRepository</a>
+&nbsp;&nbsp;&nbsp;&nbsp;
+  └── <GithubLink path="Data/DefaultEntityRepository.cs">DefaultEntityRepository</GithubLink> 
+  : <GithubLink path="Data/IEntityRepository.cs">IEntityRepository</GithubLink>
 </p>
       </HtmlContent>
       <Example
         md={`
-Currently valid
-        `}
-        lang={"http"}
-        code={`
-GET /articles?fields[articles]=title,body HTTP/1.1
-Accept: application/vnd.api+json
+Customization can be done at any of these layers. 
+However, it is recommended that you make your customizations at the service or the repository layer 
+when possible to keep the controllers free of unnecessary logic. 
+You can use the following as a general rule of thumb for where to put business logic:
+
+- **Controller**: simple validation logic that should result in the return of specific HTTP status codes such as model validation
+- **IResourceService**: advanced BL and replacement of data access mechanisms
+- **IEntityRepository**: custom logic that builds on the EF APIs, such as Authorization of data
         `}
       />
 
+      <ContentHeader>Replacing Services</ContentHeader>
+
+
       <Example
         md={`
-Not yet supported
+Replacing services is done on a per resource basis and can be done through simple DI in your Startup.cs file.
         `}
-        lang={"http"}
         code={`
-GET /articles?include=author&fields[articles]=title,body&fields[people]=name HTTP/1.1
-Accept: application/vnd.api+json
+public IServiceProvider ConfigureServices(IServiceCollection services)
+{
+    // custom service
+    services.AddScoped<IEntityRepository<Person>, CustomPersonService>();
+
+    // custom repository
+    services.AddScoped<IEntityRepository<TodoItem>, AuthorizedTodoItemRepository>();
+
+    // ...
+}
         `}
       />
     </SplitPage>

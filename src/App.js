@@ -1,6 +1,6 @@
 import StepBystep from "./pages/getting-started/StepBystep";
 import React from "react";
-import { BrowserRouter as Router, Link, Route } from "react-router-dom";
+import { HashRouter as Router, Link, Route } from "react-router-dom";
 import glamorous from "glamorous";
 
 import "./App.css";

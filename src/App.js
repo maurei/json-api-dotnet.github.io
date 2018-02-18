@@ -28,6 +28,8 @@ import EntityRepositories from "./pages/extensibility/EntityRepositories";
 import Middleware from "./pages/extensibility/Middleware";
 import CustomQueryFormats from "./pages/extensibility/CustomQueryFormats";
 
+import ErrorsIndex from "./pages/errors/ErrorsIndex";
+
 const { ul } = glamorous;
 
 const List = ul({
@@ -156,6 +158,7 @@ const App = () => {
                 path="/custom-query-formats"
                 component={CustomQueryFormats}
               />
+              <Route path="/errors" component={ErrorsIndex} />
             </div>
           </div>
         </ScrollToTop>

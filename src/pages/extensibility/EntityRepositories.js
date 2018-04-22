@@ -46,8 +46,9 @@ public class AuthorizedArticleRepository
     public AuthorizedArticleRepository(
         ILoggerFactory loggerFactory,
         IJsonApiContext jsonApiContext,
+        IDbContextResolver contextResolver,
         IAuthenticationService authenticationService)
-    : base(loggerFactory, jsonApiContext)
+    : base(loggerFactory, jsonApiContext, contextResolver)
     {
         _authenticationService = authenticationService;
     }

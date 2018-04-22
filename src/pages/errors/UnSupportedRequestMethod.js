@@ -35,21 +35,20 @@ export default () => {
       <Example
         lang="json"
         code={`
-  {
-      "errors": [
-          {
-              "title": "Request method is not supported.",
-              "detail": "",
-              "status": "405",
-              "source": "https://json-api-dotnet.github.io/#/errors/UnSupportedRequestMethod",
-              "meta": {
-                  "stackTrace": [
-                  "JsonApiDotNetCore.Internal.JsonApiException: Request method is not supported."
-                  ]
-              }
-          }
-      ]
-  }
+{
+  "errors": [
+    {
+      "title": "Request method is not supported.",
+      "status": "405",
+      "source": "https://json-api-dotnet.github.io/#/errors/UnSupportedRequestMethod",
+      "meta": {
+        "stackTrace": [
+          "JsonApiDotNetCore.Internal.JsonApiException: Request method is not supported."
+        ]
+      }
+    }
+  ]
+}
       `}
       />
       <Example

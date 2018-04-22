@@ -56,23 +56,26 @@ You can customize the filter implementation by overriding the method in the
 \`DefaultEntityRepository\`.
         `}
         code={`
-public class MyEntityRepository : DefaultEntityRepository<MyEntity>
+public class AuthorRepository : DefaultEntityRepository<Author>
 {
-  public MyEntityRepository(
+  public AuthorRepository(
     AppDbContext context,
     ILoggerFactory loggerFactory,
     IJsonApiContext jsonApiContext)
   : base(context, loggerFactory, jsonApiContext)
   { }
 
-  public override IQueryable<TEntity> Filter(IQueryable<TEntity> entities,  FilterQuery filterQuery)
-  {
-    // use the base filtering method    
-    entities = base.Filter(entities, filterQuery);
-
-    // implement custom method
-    return ApplyMyCustomFilter(entities, filterQuery);
-  }
+  public override IQueryable<TEntity> Filter(
+      IQueryable<TEntity> authors, 
+      FilterQuery filterQuery)
+    // if the filter key is "query" (filter[query]), 
+    // find Authors with matching first or last names
+    // for all other filter keys, use the base method
+    => filter.Attribute.Equals("query", StringComparison.OrdinalIgnoreCase)
+                  ? authors.Where(a => 
+                      a.First.Contains(filter.Value) 
+                      || a.Last.Contains(filter.Value))
+                  : base.Filter(authors, filter);
 }
         `}
       />

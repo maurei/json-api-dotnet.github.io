@@ -25,11 +25,13 @@ For operations other than equality, the query can be prefixed with an operation 
         `}
         code={`
 ?filter[attribute]=eq:value
+?filter[attribute]=ne:value
 ?filter[attribute]=lt:value
 ?filter[attribute]=gt:value
 ?filter[attribute]=le:value
 ?filter[attribute]=ge:value
 ?filter[attribute]=like:value
+?filter[attribute]=in:value
         `}
       />
 

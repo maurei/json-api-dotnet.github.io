@@ -61,6 +61,67 @@ public class AuthorizedArticleRepository
 }
         `}
       />
+
+      <ContentHeader>Multiple DbContexts</ContentHeader>
+      <Example
+        md={`
+If you need to use multiple EF \`DbContext\`, first add each \`DbContext\` to the \`ContextGraphBuilder\`.
+
+Then, create an implementation of \`IDbContextResolver\` for each context.
+
+Register each of the new \`IDbContextResolver\` implementations in the \`Startup\`.
+
+You can then create a general repository for each context and inject it per resource type.
+ This example shows a single \`DbContextARepository\` for all entities that are members of DbContextA.
+
+ Then inject the repository for the correct entity, in this case Foo is a member of DbContextA.
+        `}
+        code={`
+// Startup.cs
+services.AddJsonApi(options => {
+  options.BuildContextGraph((builder) =>
+  {
+      // Add both contexts using the builder
+      builder.AddDbContext<DbContextA>();
+      builder.AddDbContext<DbContextB>();
+  });
+}, mvcBuilder);
+
+
+public class DbContextAResolver : IDbContextResolver
+{
+    private readonly DbContextA _context;
+
+    public DbContextAResolver(DbContextA context)
+    {
+        _context = context;
+    }
+
+    public DbContext GetContext() => _context;
+}
+
+
+// Startup.cs
+services.AddScoped<DbContextAResolver>();
+services.AddScoped<DbContextBResolver>();
+
+
+public class DbContextARepository<TEntity> 
+: DefaultEntityRepository<TEntity> where TEntity : class, IIdentifiable<T>
+{
+  public DbContextARepository(
+      ILoggerFactory loggerFactory,
+      IJsonApiContext jsonApiContext,
+      DbContextAResolver contextResolver)
+  : base(loggerFactory, jsonApiContext, contextResolver)
+  { }
+}
+
+
+// Startup.cs
+services.AddScoped<IEntityRepository<Foo>, DbContextARepository<Foo>>();
+        `}
+      />
     </SplitPage>
   );
 };
